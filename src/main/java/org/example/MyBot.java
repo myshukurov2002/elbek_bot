@@ -3,7 +3,10 @@ package org.example;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -32,7 +35,7 @@ public class MyBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
+//        System.out.println(update.getMessage().getPhoto().get(3));
         try {
             if (update.hasMessage() && update.getMessage().getChat().getType().equals("channel")) {
                 return;
@@ -88,8 +91,37 @@ public class MyBot extends TelegramLongPollingBot {
                     SendMessage message = new SendMessage();
                     message.setText("✅Obuna bo'lgansiz");
                     message.setChatId(update.getCallbackQuery().getMessage().getChatId());
+
+                    SendPhoto sendPhoto = SendPhoto.builder()
+                            .photo(new InputFile("AgACAgIAAxkBAAIDkGdRiujEw0pBG5j-T0E0YzFjoDJmAAIj4jEbpt3QSgOEek4IGAICAQADAgADeQADNgQ"))
+                            .chatId(update.getCallbackQuery().getMessage().getChatId())
+                            .protectContent(true)
+                            .caption("⁉\uFE0FBizning ustozlarimiz sizga ta'lim berishga tayyor! SIZ-chi?\n" +
+                                    "\n" +
+                                    "\uD83D\uDC49\uD83C\uDFFCMr. Sarvar ustozning guruhlariga QABUL davom etmoqda.\n" +
+                                    "\n" +
+                                    "\uD83D\uDCCABarcha darajalar xususan;\n" +
+                                    "- Beginner\n" +
+                                    "- Elementary \n" +
+                                    "- Pre-intermediate\n" +
+                                    "- Intermediate \n" +
+                                    "- IELTS\n" +
+                                    " \n" +
+                                    "\n" +
+                                    "\uD83E\uDEE0Unutmangki til o'rganish insonga nafaqat o'zga tilda so'zlash balki aynan usha xalqning qalbiga yo'l topish, madaniyatini o'rganish hamda g'oya va fikrlarini tshunish imkoniyatini beradi.Shunday ekan tillarni o'rganish bo'lgan qiziqishingizni oshirib bizning o'quv markazga keling!\n" +
+                                    "\n" +
+                                    " \n" +
+                                    "\uD83E\uDDD1\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1Biz sizni o'quv markazimizda kutib qolamiz!)\n" +
+                                    "\n" +
+                                    "Darslarga ro'yxatdan o'tish uchun:\n" +
+                                    "\uD83D\uDCF1 +998907992700\n" +
+                                    "\uD83D\uDC69\uD83C\uDFFB @Menejer_Madina_Ergasheva")
+                            .build();
+
+
                     try {
                         execute(message);
+                        execute(sendPhoto);
                     } catch (TelegramApiException e) {
                         throw new RuntimeException(e);
                     }
